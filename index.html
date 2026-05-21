@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alexander Scherer – Links</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0b;
+    --surface: #141416;
+    --surface2: #1e1e22;
+    --border: rgba(255,255,255,0.07);
+    --border-hover: rgba(255,255,255,0.18);
+    --text: #f0ede8;
+    --muted: #7a7870;
+    --accent: #c8b89a;
+    --accent2: #8fa8c0;
+  }
+
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem 1.25rem 4rem;
+  }
+
+  /* Subtle grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 440px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* Header */
+  .profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-bottom: 2.5rem;
+  }
+
+  .avatar-wrap {
+    position: relative;
+    width: 88px;
+    height: 88px;
+    margin-bottom: 1.25rem;
+  }
+
+  .avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+    overflow: hidden;
+  }
+
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .status-dot {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #4ade80;
+    border: 2px solid var(--bg);
+  }
+
+  .profile-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.75rem;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-bottom: 0.35rem;
+  }
+
+  .profile-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .profile-bio {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .profile-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .tag {
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 0.5px solid var(--border);
+    color: var(--muted);
+    background: var(--surface);
+    letter-spacing: 0.03em;
+  }
+
+  /* Divider */
+  .divider {
+    width: 40px;
+    height: 1px;
+    background: var(--border);
+    margin: 0 auto 1.75rem;
+  }
+
+  /* Section label */
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    padding-left: 2px;
+  }
+
+  /* Links */
+  .links-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 2rem;
+  }
+
+  .link-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0.85rem 1.1rem;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.18s ease, background 0.18s ease, transform 0.12s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .link-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.025) 100%);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .link-item:hover {
+    border-color: var(--border-hover);
+    background: var(--surface2);
+    transform: translateY(-1px);
+  }
+
+  .link-item:hover::before { opacity: 1; }
+
+  .link-item:active {
+    transform: translateY(0px) scale(0.99);
+  }
+
+  .icon-wrap {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 17px;
+  }
+
+  .link-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .link-title {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--text);
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .link-sub {
+    font-size: 0.75rem;
+    color: var(--muted);
+    display: block;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .arrow {
+    font-size: 14px;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: transform 0.15s ease, color 0.15s;
+  }
+
+  .link-item:hover .arrow {
+    transform: translateX(3px);
+    color: var(--accent);
+  }
+
+  /* Icon color classes */
+  .ic-photo   { background: rgba(200,184,154,0.12); color: #c8b89a; }
+  .ic-ig      { background: rgba(193,88,138,0.12);  color: #c1588a; }
+  .ic-web     { background: rgba(143,168,192,0.12); color: #8fa8c0; }
+  .ic-github  { background: rgba(240,237,232,0.08); color: #c8c4be; }
+  .ic-li      { background: rgba(100,149,196,0.12); color: #6495c4; }
+  .ic-mail    { background: rgba(120,200,150,0.12); color: #78c896; }
+  .ic-tiktok  { background: rgba(240,237,232,0.07); color: #c8c4be; }
+  .ic-yt      { background: rgba(220,80,80,0.12);   color: #dc5050; }
+  .ic-fb      { background: rgba(100,130,210,0.12); color: #6482d2; }
+  .ic-contact { background: rgba(160,200,240,0.1);  color: #a0c8f0; }
+
+  /* Footer */
+  .footer {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .footer a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .footer a:hover { color: var(--accent); }
+
+  /* Fade in animation */
+  .container { animation: fadeUp 0.55s ease both; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .links-group .link-item:nth-child(1) { animation: fadeUp 0.5s 0.05s ease both; }
+  .links-group .link-item:nth-child(2) { animation: fadeUp 0.5s 0.10s ease both; }
+  .links-group .link-item:nth-child(3) { animation: fadeUp 0.5s 0.15s ease both; }
+  .links-group .link-item:nth-child(4) { animation: fadeUp 0.5s 0.20s ease both; }
+  .links-group .link-item:nth-child(5) { animation: fadeUp 0.5s 0.25s ease both; }
+  .links-group .link-item:nth-child(6) { animation: fadeUp 0.5s 0.30s ease both; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Profil -->
+  <div class="profile">
+    <div class="avatar-wrap">
+      <div class="avatar">AS</div>
+      <span class="status-dot" title="Verfügbar"></span>
+    </div>
+    <h1 class="profile-name">Alexander <em>Scherer</em></h1>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Fotografie -->
+  <p class="section-label">Fotografie</p>
+  <div class="links-group">
+    <a class="link-item" href="https://deine-portfolio-website.de" target="_blank">
+      <span class="icon-wrap ic-photo">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      </span>
+      <span class="link-text">
+        <span class="link-title">Portfolio</span>
+        <span class="link-sub">deine-portfolio-website.de</span>
+      </span>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="link-item" href="https://instagram.com/dein_profil" target="_blank">
+      <span class="icon-wrap ic-ig">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg>
+      </span>
+      <span class="link-text">
+        <span class="link-title">Instagram</span>
+        <span class="link-sub">@dein_profil</span>
+      </span>
+      <span class="arrow">→</span>
+    </a>
+
+
+  </div>
+
+  <!-- IT & Beruf -->
+  <p class="section-label">IT &amp; Beruf</p>
+  <div class="links-group">
+    <a class="link-item" href="https://github.com/dein_github" target="_blank">
+      <span class="icon-wrap ic-github">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      </span>
+      <span class="link-text">
+        <span class="link-title">GitHub</span>
+        <span class="link-sub">Projekte &amp; Code</span>
+      </span>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="link-item" href="https://linkedin.com/in/dein_profil" target="_blank">
+      <span class="icon-wrap ic-li">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      </span>
+      <span class="link-text">
+        <span class="link-title">LinkedIn</span>
+        <span class="link-sub">Berufliches Netzwerk</span>
+      </span>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+
+  <!-- Kontakt -->
+  <p class="section-label">Kontakt</p>
+  <div class="links-group">
+    <a class="link-item" href="mailto:deine@email.de">
+      <span class="icon-wrap ic-mail">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </span>
+      <span class="link-text">
+        <span class="link-title">E-Mail</span>
+        <span class="link-sub">deine@email.de</span>
+      </span>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="link-item" href="https://facebook.com/dein_profil" target="_blank">
+      <span class="icon-wrap ic-fb">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      </span>
+      <span class="link-text">
+        <span class="link-title">Facebook</span>
+        <span class="link-sub">@dein_profil</span>
+      </span>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+
+  <div class="footer">
+    <p>© 2026 Alexander Scherer · Berlin</p>
+    <p style="margin-top:4px"><a href="https://deine-website.de/impressum">Impressum</a> &nbsp;·&nbsp; <a href="https://deine-website.de/datenschutz">Datenschutz</a></p>
+  </div>
+
+</div>
+
+</body>
+</html>
