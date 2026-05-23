@@ -8,396 +8,667 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #0a0a0b;
-    --surface: #141416;
-    --surface2: #1e1e22;
-    --border: rgba(255,255,255,0.07);
-    --border-hover: rgba(255,255,255,0.18);
-    --text: #f0ede8;
-    --muted: #7a7870;
-    --accent: #c8b89a;
-    --accent2: #8fa8c0;
+    --bg: #0a0800; --surface: rgba(22,18,8,0.88); --surface2: rgba(32,26,10,0.92);
+    --border: rgba(200,160,60,0.12); --border-hover: rgba(200,160,60,0.32);
+    --text: #fdf6e3; --muted: #7a6a40; --accent: #c8a03c;
+    --danger: #e05050; --success: #4ade80;
   }
-
   body {
     min-height: 100vh;
-    background: var(--bg);
+    background-color: #0a0800;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Ccircle cx='300' cy='300' r='60' fill='none' stroke='rgba(200%2C160%2C60%2C0.07)' stroke-width='1'/%3E%3Ccircle cx='300' cy='300' r='110' fill='none' stroke='rgba(200%2C160%2C60%2C0.06)' stroke-width='1'/%3E%3Ccircle cx='300' cy='300' r='165' fill='none' stroke='rgba(200%2C160%2C60%2C0.055)' stroke-width='1'/%3E%3Ccircle cx='300' cy='300' r='225' fill='none' stroke='rgba(200%2C160%2C60%2C0.05)' stroke-width='1'/%3E%3Ccircle cx='300' cy='300' r='290' fill='none' stroke='rgba(200%2C160%2C60%2C0.04)' stroke-width='1'/%3E%3Ccircle cx='300' cy='300' r='360' fill='none' stroke='rgba(200%2C160%2C60%2C0.035)' stroke-width='1'/%3E%3Ccircle cx='0' cy='0' r='80' fill='none' stroke='rgba(200%2C160%2C60%2C0.045)' stroke-width='1'/%3E%3Ccircle cx='0' cy='0' r='140' fill='none' stroke='rgba(200%2C160%2C60%2C0.035)' stroke-width='1'/%3E%3Ccircle cx='0' cy='0' r='200' fill='none' stroke='rgba(200%2C160%2C60%2C0.028)' stroke-width='1'/%3E%3Ccircle cx='600' cy='600' r='80' fill='none' stroke='rgba(200%2C160%2C60%2C0.045)' stroke-width='1'/%3E%3Ccircle cx='600' cy='600' r='150' fill='none' stroke='rgba(200%2C160%2C60%2C0.035)' stroke-width='1'/%3E%3Ccircle cx='600' cy='600' r='220' fill='none' stroke='rgba(200%2C160%2C60%2C0.028)' stroke-width='1'/%3E%3Ccircle cx='600' cy='0' r='90' fill='none' stroke='rgba(200%2C160%2C60%2C0.04)' stroke-width='1'/%3E%3Ccircle cx='600' cy='0' r='160' fill='none' stroke='rgba(200%2C160%2C60%2C0.03)' stroke-width='1'/%3E%3Ccircle cx='0' cy='600' r='90' fill='none' stroke='rgba(200%2C160%2C60%2C0.04)' stroke-width='1'/%3E%3Ccircle cx='0' cy='600' r='160' fill='none' stroke='rgba(200%2C160%2C60%2C0.03)' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 600px 600px;
     color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    font-family: 'DM Sans', sans-serif; font-weight: 300;
+    display: flex; flex-direction: column; align-items: center;
     padding: 3rem 1.25rem 4rem;
   }
-
-  /* Subtle grain overlay */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .container {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 440px;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  /* Header */
-  .profile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding-bottom: 2.5rem;
-  }
-
-  .avatar-wrap {
-    position: relative;
-    width: 88px;
-    height: 88px;
-    margin-bottom: 1.25rem;
-  }
-
-  .avatar {
-    width: 88px;
-    height: 88px;
-    border-radius: 50%;
-    background: var(--surface2);
-    border: 1.5px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'DM Serif Display', serif;
-    font-size: 28px;
-    color: var(--accent);
-    letter-spacing: 0.02em;
-    overflow: hidden;
-  }
-
-  .avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-  }
-
-  .status-dot {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #4ade80;
-    border: 2px solid var(--bg);
-  }
-
-  .profile-name {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.75rem;
-    letter-spacing: -0.01em;
-    color: var(--text);
-    margin-bottom: 0.35rem;
-  }
-
-  .profile-name em {
-    font-style: italic;
-    color: var(--accent);
-  }
-
-  .profile-bio {
-    font-size: 0.85rem;
-    color: var(--muted);
-    font-weight: 400;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-  }
-
-  .profile-tags {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .tag {
-    font-size: 0.75rem;
-    padding: 3px 10px;
-    border-radius: 20px;
-    border: 0.5px solid var(--border);
-    color: var(--muted);
-    background: var(--surface);
-    letter-spacing: 0.03em;
-  }
-
-  /* Divider */
-  .divider {
-    width: 40px;
-    height: 1px;
-    background: var(--border);
-    margin: 0 auto 1.75rem;
-  }
-
-  /* Section label */
-  .section-label {
-    font-size: 0.68rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 0.75rem;
-    padding-left: 2px;
-  }
-
-  /* Links */
-  .links-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    margin-bottom: 2rem;
-  }
-
-  .link-item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 0.85rem 1.1rem;
-    border-radius: 14px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    text-decoration: none;
-    color: var(--text);
-    transition: border-color 0.18s ease, background 0.18s ease, transform 0.12s ease;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .link-item::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.025) 100%);
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-
-  .link-item:hover {
-    border-color: var(--border-hover);
-    background: var(--surface2);
-    transform: translateY(-1px);
-  }
-
-  .link-item:hover::before { opacity: 1; }
-
-  .link-item:active {
-    transform: translateY(0px) scale(0.99);
-  }
-
-  .icon-wrap {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    font-size: 17px;
-  }
-
-  .link-text {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .link-title {
-    font-size: 0.92rem;
-    font-weight: 500;
-    color: var(--text);
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .link-sub {
-    font-size: 0.75rem;
-    color: var(--muted);
-    display: block;
-    margin-top: 1px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .arrow {
-    font-size: 14px;
-    color: var(--muted);
-    flex-shrink: 0;
-    transition: transform 0.15s ease, color 0.15s;
-  }
-
-  .link-item:hover .arrow {
-    transform: translateX(3px);
-    color: var(--accent);
-  }
-
-  /* Icon color classes */
-  .ic-photo   { background: rgba(200,184,154,0.12); color: #c8b89a; }
-  .ic-ig      { background: rgba(193,88,138,0.12);  color: #c1588a; }
-  .ic-web     { background: rgba(143,168,192,0.12); color: #8fa8c0; }
-  .ic-github  { background: rgba(240,237,232,0.08); color: #c8c4be; }
-  .ic-li      { background: rgba(100,149,196,0.12); color: #6495c4; }
-  .ic-mail    { background: rgba(120,200,150,0.12); color: #78c896; }
-  .ic-tiktok  { background: rgba(240,237,232,0.07); color: #c8c4be; }
-  .ic-yt      { background: rgba(220,80,80,0.12);   color: #dc5050; }
-  .ic-fb      { background: rgba(100,130,210,0.12); color: #6482d2; }
-  .ic-contact { background: rgba(160,200,240,0.1);  color: #a0c8f0; }
-
-  /* Footer */
-  .footer {
-    margin-top: 1rem;
-    text-align: center;
-    font-size: 0.72rem;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-  }
-
-  .footer a {
-    color: var(--muted);
-    text-decoration: none;
-  }
-
-  .footer a:hover { color: var(--accent); }
-
-  /* Fade in animation */
-  .container { animation: fadeUp 0.55s ease both; }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .links-group .link-item:nth-child(1) { animation: fadeUp 0.5s 0.05s ease both; }
-  .links-group .link-item:nth-child(2) { animation: fadeUp 0.5s 0.10s ease both; }
-  .links-group .link-item:nth-child(3) { animation: fadeUp 0.5s 0.15s ease both; }
-  .links-group .link-item:nth-child(4) { animation: fadeUp 0.5s 0.20s ease both; }
-  .links-group .link-item:nth-child(5) { animation: fadeUp 0.5s 0.25s ease both; }
-  .links-group .link-item:nth-child(6) { animation: fadeUp 0.5s 0.30s ease both; }
+  body::before { display: none; }
+  .container { position: relative; z-index: 1; width: 100%; max-width: 440px; display: flex; flex-direction: column; animation: fadeUp .55s ease both; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+  .profile { display: flex; flex-direction: column; align-items: center; text-align: center; padding-bottom: 2.5rem; }
+  .avatar-wrap { position: relative; width: 88px; height: 88px; margin-bottom: 1.25rem; }
+  .avatar { width:88px; height:88px; border-radius:50%; background: linear-gradient(135deg, #1a1200, #2e2200); border:1.5px solid rgba(200,160,60,0.35); display:flex; align-items:center; justify-content:center; font-family:'DM Serif Display',serif; font-size:28px; color:#c8a03c; box-shadow: 0 0 28px rgba(200,160,60,0.15); }
+  .status-dot { position:absolute; bottom:5px; right:5px; width:12px; height:12px; border-radius:50%; background:var(--success); border:2px solid var(--bg); }
+  .profile-name { font-family:'DM Serif Display',serif; font-size:1.75rem; letter-spacing:-.01em; }
+  .profile-name em { font-style:italic; color:var(--accent); }
+  .divider { width:40px; height:1px; background:rgba(200,160,60,0.22); margin:0 auto 1.75rem; }
+  .section-label { font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:rgba(200,160,60,0.5); margin-bottom:.75rem; padding-left:2px; }
+  .links-group { display:flex; flex-direction:column; gap:.6rem; margin-bottom:2rem; }
+  .link-item { display:flex; align-items:center; gap:14px; padding:.85rem 1.1rem; border-radius:14px; border:1px solid var(--border); background:var(--surface); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); text-decoration:none; color:var(--text); position:relative; overflow:hidden; transition:border-color .18s, background .18s, transform .12s; cursor:pointer; }
+  .link-item::before { content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,.025)); opacity:0; transition:opacity .2s; }
+  .link-item:hover { border-color:var(--border-hover); background:var(--surface2); transform:translateY(-1px); }
+  .link-item:hover::before { opacity:1; }
+  .link-item:active { transform:scale(.99); }
+  .icon-wrap { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .link-text { flex:1; min-width:0; }
+  .link-title { font-size:.92rem; font-weight:500; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .link-sub { font-size:.75rem; color:var(--muted); display:block; margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .arrow { font-size:14px; color:var(--muted); flex-shrink:0; transition:transform .15s, color .15s; }
+  .link-item:hover .arrow { transform:translateX(3px); color:var(--accent); }
+  .footer { margin-top:1rem; text-align:center; font-size:.72rem; color:var(--muted); letter-spacing:.05em; }
+  .footer button { background:none; border:none; color:var(--muted); font-family:inherit; font-size:inherit; letter-spacing:inherit; cursor:pointer; padding:0; }
+  .footer button:hover { color:var(--accent); }
+  /* Loading skeleton */
+  .skeleton { background:linear-gradient(90deg,rgba(22,18,8,.8) 25%,rgba(32,26,10,.9) 50%,rgba(22,18,8,.8) 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; border-radius:14px; height:64px; margin-bottom:.6rem; border:1px solid rgba(200,160,60,0.07); }
+  @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+  /* Admin FAB */
+  .admin-fab { position:fixed; bottom:1.5rem; right:1.5rem; z-index:200; width:44px; height:44px; border-radius:50%; background:rgba(22,18,8,0.9); backdrop-filter:blur(8px); border:1px solid rgba(200,160,60,0.18); color:var(--muted); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:border-color .2s, color .2s, transform .15s; box-shadow:0 4px 24px rgba(0,0,0,.5); }
+  .admin-fab:hover { border-color:var(--accent); color:var(--accent); transform:scale(1.05); }
+  /* Modal */
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:300; align-items:flex-end; justify-content:center; backdrop-filter:blur(4px); }
+  .modal-overlay.open { display:flex; }
+  .modal { background:var(--surface); border:1px solid var(--border); border-radius:20px 20px 0 0; width:100%; max-width:540px; max-height:88vh; overflow-y:auto; padding:2rem 1.5rem 2.5rem; animation:slideUp .25s ease both; }
+  @keyframes slideUp { from{transform:translateY(40px);opacity:0} to{transform:translateY(0);opacity:1} }
+  .modal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; }
+  .modal-title { font-family:'DM Serif Display',serif; font-size:1.3rem; }
+  .modal-close { background:var(--surface2); border:1px solid var(--border); color:var(--muted); border-radius:8px; width:32px; height:32px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; transition:color .15s; }
+  .modal-close:hover { color:var(--text); }
+  .modal-body h3 { font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin:1.25rem 0 .4rem; }
+  .modal-body h3:first-child { margin-top:0; }
+  .modal-body p, .modal-body li { font-size:.85rem; color:var(--muted); line-height:1.7; }
+  .modal-body a { color:var(--accent); text-decoration:none; }
+  .modal-body ul { padding-left:1.2rem; margin-top:.25rem; }
+  .modal-body .divider-sm { height:1px; background:var(--border); margin:1.25rem 0; }
+  /* Login */
+  .login-box { display:flex; flex-direction:column; gap:1rem; }
+  .login-box label { font-size:.75rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:.35rem; }
+  .login-error { font-size:.8rem; color:var(--danger); text-align:center; min-height:1.2em; }
+  /* Buttons */
+  .btn { padding:.75rem 1.25rem; border-radius:10px; border:none; cursor:pointer; font-family:inherit; font-size:.88rem; font-weight:500; transition:opacity .15s, transform .1s; }
+  .btn:hover { opacity:.85; } .btn:active { transform:scale(.98); }
+  .btn-primary { background:var(--accent); color:#1a1610; }
+  .btn-danger  { background:rgba(224,80,80,.15); border:1px solid rgba(224,80,80,.3); color:var(--danger); }
+  .btn-ghost   { background:var(--surface2); border:1px solid var(--border); color:var(--muted); }
+  /* Admin */
+  .admin-tabs { display:flex; gap:.5rem; margin-bottom:1.25rem; flex-wrap:wrap; }
+  .admin-tab { padding:.45rem .9rem; border-radius:8px; border:1px solid var(--border); background:none; color:var(--muted); font-family:inherit; font-size:.8rem; cursor:pointer; transition:all .15s; }
+  .admin-tab.active { border-color:var(--accent); color:var(--accent); background:rgba(200,184,154,.07); }
+  .admin-tab-content { display:none; }
+  .admin-tab-content.active { display:block; }
+  .logout-row { display:flex; justify-content:flex-end; margin-bottom:1rem; }
+  .admin-section-header { display:flex; align-items:center; justify-content:space-between; margin:1.25rem 0 .6rem; }
+  .admin-section-header:first-of-type { margin-top:0; }
+  .admin-section-title { font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); }
+  .admin-link-card { background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:.75rem 1rem; margin-bottom:.5rem; display:flex; align-items:center; gap:10px; }
+  .admin-link-info { flex:1; min-width:0; }
+  .admin-link-title { font-size:.88rem; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .admin-link-url   { font-size:.73rem; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .admin-link-actions { display:flex; gap:6px; flex-shrink:0; }
+  .icon-btn { background:none; border:1px solid var(--border); border-radius:7px; color:var(--muted); width:28px; height:28px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:color .15s, border-color .15s; }
+  .icon-btn:hover { color:var(--text); border-color:var(--border-hover); }
+  .icon-btn.del:hover { color:var(--danger); border-color:rgba(224,80,80,.4); }
+  .admin-form { display:flex; flex-direction:column; gap:.75rem; margin-top:.75rem; }
+  .admin-form label { font-size:.72rem; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:.25rem; }
+  .admin-form input, .admin-form select { width:100%; padding:.65rem .9rem; border-radius:9px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-family:inherit; font-size:.88rem; outline:none; transition:border-color .2s; }
+  .admin-form input:focus, .admin-form select:focus { border-color:var(--accent); }
+  .admin-form select option { background:#1e1e22; }
+  .form-row { display:flex; gap:.6rem; }
+  .admin-cat-card { background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:.75rem 1rem; margin-bottom:.5rem; display:flex; align-items:center; gap:10px; }
+  .badge { display:inline-block; font-size:.68rem; padding:2px 8px; border-radius:20px; background:var(--surface); border:1px solid var(--border); color:var(--muted); }
+  .empty-state { text-align:center; color:var(--muted); font-size:.82rem; padding:1.5rem 0; }
+  .saving-indicator { font-size:.78rem; color:var(--muted); text-align:center; min-height:1.2em; }
 </style>
 </head>
 <body>
 
-<div class="container">
-
-  <!-- Profil -->
+<div class="container" id="main-container">
   <div class="profile">
     <div class="avatar-wrap">
-      <div class="avatar">AS</div>
-      <span class="status-dot" title="Verfügbar"></span>
+      <div class="avatar" id="avatar-el">AS</div>
+      <span class="status-dot"></span>
     </div>
-    <h1 class="profile-name">Alexander <em>Scherer</em></h1>
-
+    <h1 class="profile-name" id="profile-name-el">Alexander <em>Scherer</em></h1>
   </div>
-
   <div class="divider"></div>
-
-  <!-- Fotografie -->
-  <p class="section-label">Fotografie</p>
-  <div class="links-group">
-    <a class="link-item" href="https://www.alexander-scherer.com/" target="_blank">
-      <span class="icon-wrap ic-photo">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-      </span>
-      <span class="link-text">
-        <span class="link-title">Portfolio</span>
-        <span class="link-sub">https://www.alexander-scherer.com/</span>
-      </span>
-      <span class="arrow">→</span>
-    </a>
-
-    <a class="link-item" href="https://www.instagram.com/alexander_scherer_photographie" target="_blank">
-      <span class="icon-wrap ic-ig">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg>
-      </span>
-      <span class="link-text">
-        <span class="link-title">Instagram</span>
-        <span class="link-sub">https://www.instagram.com/alexander_scherer_photographie</span>
-      </span>
-      <span class="arrow">→</span>
-    </a>
-
-
+  <div id="links-render">
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+    <div class="skeleton" style="height:48px;margin-bottom:2rem"></div>
   </div>
-
-  <!-- IT & Beruf -->
-  <p class="section-label">IT &amp; Beruf</p>
-  <div class="links-group">
-    <a class="link-item" href="https://github.com/dein_github" target="_blank">
-      <span class="icon-wrap ic-github">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-      </span>
-      <span class="link-text">
-        <span class="link-title">GitHub</span>
-        <span class="link-sub">Projekte &amp; Code</span>
-      </span>
-      <span class="arrow">→</span>
-    </a>
-
-    <a class="link-item" href="https://linkedin.com/in/dein_profil" target="_blank">
-      <span class="icon-wrap ic-li">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-      </span>
-      <span class="link-text">
-        <span class="link-title">LinkedIn</span>
-        <span class="link-sub">Berufliches Netzwerk</span>
-      </span>
-      <span class="arrow">→</span>
-    </a>
-  </div>
-
-  <!-- Kontakt -->
-  <p class="section-label">Kontakt</p>
-  <div class="links-group">
-    <a class="link-item" href="mailto:deine@email.de">
-      <span class="icon-wrap ic-mail">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      </span>
-      <span class="link-text">
-        <span class="link-title">E-Mail</span>
-        <span class="link-sub">info@alexander-scherer.com</span>
-      </span>
-      <span class="arrow">→</span>
-    </a>
-
-    <a class="link-item" href="https://facebook.com/dein_profil" target="_blank">
-      <span class="icon-wrap ic-fb">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-      </span>
-      <span class="link-text">
-        <span class="link-title">Facebook</span>
-        <span class="link-sub">@dein_profil</span>
-      </span>
-      <span class="arrow">→</span>
-    </a>
-  </div>
-
   <div class="footer">
     <p>© 2026 Alexander Scherer · Berlin</p>
-    <p style="margin-top:4px"><a href="https://deine-website.de/impressum">Impressum</a> &nbsp;·&nbsp; <a href="https://deine-website.de/datenschutz">Datenschutz</a></p>
+    <p style="margin-top:4px">
+      <button onclick="openModal('impressum')">Impressum</button>
+      &nbsp;·&nbsp;
+      <button onclick="openModal('datenschutz')">Datenschutz</button>
+    </p>
   </div>
-
 </div>
 
+<!-- Admin FAB -->
+<button class="admin-fab" onclick="openAdminLogin()" title="Admin-Login">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+</button>
+
+<!-- Login Modal -->
+<div class="modal-overlay" id="modal-login" onclick="closeOnOverlay(event,'login')">
+  <div class="modal" style="max-width:380px">
+    <div class="modal-header">
+      <span class="modal-title">Admin-Login</span>
+      <button class="modal-close" onclick="closeModal('login')">✕</button>
+    </div>
+    <div class="login-box">
+      <div>
+        <label>Passwort</label>
+        <input type="password" id="login-pw" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <p class="login-error" id="login-error"></p>
+      <button class="btn btn-primary" onclick="doLogin()">Anmelden</button>
+    </div>
+  </div>
+</div>
+
+<!-- Admin Panel Modal -->
+<div class="modal-overlay" id="modal-admin" onclick="closeOnOverlay(event,'admin')">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Admin-Panel</span>
+      <button class="modal-close" onclick="closeModal('admin')">✕</button>
+    </div>
+    <div class="logout-row">
+      <button class="btn btn-ghost" style="font-size:.78rem;padding:.4rem .8rem" onclick="doLogout()">Abmelden</button>
+    </div>
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="switchTab('links')">Links</button>
+      <button class="admin-tab" onclick="switchTab('cats')">Kategorien</button>
+      <button class="admin-tab" onclick="switchTab('profil')">Profil</button>
+      <button class="admin-tab" onclick="switchTab('pw')">Passwort</button>
+    </div>
+
+    <!-- Tab: Links -->
+    <div class="admin-tab-content active" id="tab-links">
+      <div id="admin-links-list"></div>
+      <div style="margin-top:1.25rem">
+        <div class="admin-section-header">
+          <span class="admin-section-title" id="link-form-title">Neuen Link hinzufügen</span>
+        </div>
+        <div class="admin-form">
+          <input type="hidden" id="edit-link-id">
+          <div><label>Titel</label><input type="text" id="lf-title" placeholder="z.B. Portfolio"></div>
+          <div><label>URL</label><input type="text" id="lf-url" placeholder="https://..."></div>
+          <div><label>Untertitel (optional)</label><input type="text" id="lf-sub" placeholder="z.B. @dein_profil"></div>
+          <div><label>Kategorie</label><select id="lf-cat"></select></div>
+          <div>
+            <label>Icon-Farbe</label>
+            <select id="lf-icon">
+              <option value="gold">Gold (Portfolio, Kamera)</option>
+              <option value="pink">Pink (Instagram)</option>
+              <option value="blue">Blau (LinkedIn, Twitter)</option>
+              <option value="green">Grün (E-Mail, WhatsApp)</option>
+              <option value="gray">Grau (GitHub, Standard)</option>
+              <option value="indigo">Indigo (Facebook)</option>
+              <option value="red">Rot (YouTube)</option>
+              <option value="teal">Türkis (Website)</option>
+            </select>
+          </div>
+          <p class="saving-indicator" id="link-msg"></p>
+          <div class="form-row">
+            <button class="btn btn-primary" onclick="saveLink()" style="flex:1" id="link-save-btn">Link speichern</button>
+            <button class="btn btn-ghost" onclick="cancelLinkEdit()" id="link-cancel-btn" style="display:none">Abbrechen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Kategorien -->
+    <div class="admin-tab-content" id="tab-cats">
+      <div id="admin-cats-list"></div>
+      <div style="margin-top:1.25rem">
+        <div class="admin-section-header">
+          <span class="admin-section-title" id="cat-form-title">Neue Kategorie</span>
+        </div>
+        <div class="admin-form">
+          <input type="hidden" id="edit-cat-id">
+          <div><label>Name</label><input type="text" id="cf-name" placeholder="z.B. Fotografie"></div>
+          <p class="saving-indicator" id="cat-msg"></p>
+          <div class="form-row">
+            <button class="btn btn-primary" onclick="saveCat()" style="flex:1" id="cat-save-btn">Kategorie speichern</button>
+            <button class="btn btn-ghost" onclick="cancelCatEdit()" id="cat-cancel-btn" style="display:none">Abbrechen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Profil -->
+    <div class="admin-tab-content" id="tab-profil">
+      <div class="admin-form">
+        <div><label>Vorname</label><input type="text" id="pf-first" placeholder="z.B. Alexander" oninput="updateAvatarPreview()"></div>
+        <div><label>Nachname</label><input type="text" id="pf-last" placeholder="z.B. Scherer" oninput="updateAvatarPreview()"></div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:.75rem 1rem;display:flex;align-items:center;gap:12px">
+          <div id="pf-avatar-preview" style="width:42px;height:42px;border-radius:50%;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:14px;color:var(--accent);flex-shrink:0"></div>
+          <div style="font-size:.8rem;color:var(--muted)">Vorschau der Initialen</div>
+        </div>
+        <p class="saving-indicator" id="pf-msg"></p>
+        <button class="btn btn-primary" onclick="saveProfile()">Name speichern</button>
+      </div>
+    </div>
+
+    <!-- Tab: Passwort -->
+    <div class="admin-tab-content" id="tab-pw">
+      <div class="admin-form">
+        <div><label>Aktuelles Passwort</label><input type="password" id="pw-current" placeholder="••••••••"></div>
+        <div><label>Neues Passwort</label><input type="password" id="pw-new" placeholder="••••••••"></div>
+        <div><label>Neues Passwort wiederholen</label><input type="password" id="pw-repeat" placeholder="••••••••"></div>
+        <p class="saving-indicator" id="pw-msg"></p>
+        <button class="btn btn-primary" onclick="changePw()">Passwort ändern</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Impressum -->
+<div class="modal-overlay" id="modal-impressum" onclick="closeOnOverlay(event,'impressum')">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">Impressum</span><button class="modal-close" onclick="closeModal('impressum')">✕</button></div>
+    <div class="modal-body">
+      <h3>Angaben gemäß § 5 TMG</h3><p>Alexander Scherer<br>Mertensstraße 18<br>13587 Berlin</p>
+      <div class="divider-sm"></div>
+      <h3>Kontakt</h3><p>E-Mail: <a href="mailto:info@alexander-scherer.com">info@alexander-scherer.com</a></p>
+      <div class="divider-sm"></div>
+      <h3>Berufsbezeichnung &amp; Tätigkeit</h3><p>Fotograf (Kleingewerbe)<br>Portrait-, Urban- und Eventfotografie</p>
+      <div class="divider-sm"></div>
+      <h3>Kleinunternehmerregelung</h3><p>Gemäß § 19 UStG wird keine Umsatzsteuer berechnet und ausgewiesen.</p>
+      <div class="divider-sm"></div>
+      <h3>Verantwortlich (§ 18 Abs. 2 MStV)</h3><p>Alexander Scherer, Mertensstraße 18, 13587 Berlin</p>
+      <div class="divider-sm"></div>
+      <h3>Haftung für Inhalte</h3><p>Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann keine Gewähr übernommen werden.</p>
+      <div class="divider-sm"></div>
+      <h3>Haftung für Links</h3><p>Auf Inhalte verlinkter Drittseiten haben wir keinen Einfluss und übernehmen keine Haftung.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Datenschutz -->
+<div class="modal-overlay" id="modal-datenschutz" onclick="closeOnOverlay(event,'datenschutz')">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">Datenschutzerklärung</span><button class="modal-close" onclick="closeModal('datenschutz')">✕</button></div>
+    <div class="modal-body">
+      <h3>1. Verantwortlicher</h3>
+      <p>Alexander Scherer<br>Mertensstraße 18, 13587 Berlin<br>E-Mail: <a href="mailto:info@alexander-scherer.com">info@alexander-scherer.com</a></p>
+
+      <div class="divider-sm"></div>
+      <h3>2. Allgemeines zur Datenverarbeitung</h3>
+      <p>Diese Seite ist eine statische Link-Übersichtsseite. Es werden durch den Betreiber keine personenbezogenen Daten der Besucher aktiv erhoben oder gespeichert. Es existieren weder eigene Cookies noch Tracking- oder Analyse-Skripte.</p>
+
+      <div class="divider-sm"></div>
+      <h3>3. Hosting – GitHub Pages</h3>
+      <p>Diese Website wird über GitHub Pages (GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA) gehostet. Beim Aufruf der Seite kann GitHub automatisch technische Zugriffsdaten erfassen, u. a. IP-Adresse, Browsertyp, Betriebssystem, Referrer-URL sowie Datum und Uhrzeit des Zugriffs. Die Verarbeitung erfolgt durch GitHub auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse am sicheren Betrieb). Weitere Informationen: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank">Datenschutzerklärung von GitHub</a>.</p>
+
+      <div class="divider-sm"></div>
+      <h3>4. Datenbankdienst – Supabase</h3>
+      <p>Die auf dieser Seite angezeigten Inhalte (Links, Kategorien, Profilname) werden in einer Datenbank des Dienstleisters Supabase (Supabase Inc., 970 Toa Payoh North, Singapur) gespeichert und beim Seitenaufruf darüber abgerufen. Dabei wird zur technischen Verarbeitung der Anfrage die IP-Adresse des Besuchers an Supabase übertragen. Eine darüber hinausgehende Speicherung personenbezogener Besucherdaten findet nicht statt. Die Daten werden auf Servern in der EU (Region eu-west-1) verarbeitet. Grundlage der Verarbeitung ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse am Betrieb der Website). Weitere Informationen: <a href="https://supabase.com/privacy" target="_blank">Datenschutzerklärung von Supabase</a>.</p>
+
+      <div class="divider-sm"></div>
+      <h3>5. Externe Links</h3>
+      <p>Diese Seite enthält Links zu externen Diensten (z. B. Instagram, LinkedIn, Facebook, GitHub). Sobald ein solcher Link angeklickt wird, verlässt der Nutzer diese Seite. Für die Datenverarbeitung auf den verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.</p>
+
+      <div class="divider-sm"></div>
+      <h3>6. Betroffenenrechte</h3>
+      <p>Nach der DSGVO stehen dir folgende Rechte zu: Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) sowie Widerspruch (Art. 21). Anfragen bitte an: <a href="mailto:info@alexander-scherer.com">info@alexander-scherer.com</a></p>
+      <p style="margin-top:.5rem">Du hast außerdem das Recht, dich bei der zuständigen Aufsichtsbehörde zu beschweren: <a href="https://www.datenschutz-berlin.de" target="_blank">Berliner Beauftragte für Datenschutz und Informationsfreiheit</a>.</p>
+
+      <div class="divider-sm"></div>
+      <h3>7. Stand</h3>
+      <p>Mai 2026</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── Supabase config ──────────────────────────────────────────────────────────
+const SUPA_URL = 'https://sntkvqzfiyhtvtufqfgp.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNudGt2cXpmaXlodHZ0dWZxZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDQ5MjcsImV4cCI6MjA5MjcyMDkyN30.viXudtCbUkzLEmdsXqAGYFwlxNB-JiHNp11g0t1XHc0';
+
+const ADMIN_PW_KEY = 'as_admin_pw';
+const DEFAULT_PW   = 'admin123';
+
+let adminPw  = localStorage.getItem(ADMIN_PW_KEY) || DEFAULT_PW;
+let loggedIn = false;
+let cats = [], links = [], profile = { first_name: 'Alexander', last_name: 'Scherer' };
+
+// ─── Supabase fetch helper ────────────────────────────────────────────────────
+async function sb(path, opts = {}) {
+  const res = await fetch(SUPA_URL + '/rest/v1/' + path, {
+    headers: {
+      'apikey': SUPA_KEY,
+      'Authorization': 'Bearer ' + SUPA_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': opts.prefer || 'return=representation',
+      ...opts.headers
+    },
+    method: opts.method || 'GET',
+    body: opts.body ? JSON.stringify(opts.body) : undefined
+  });
+  if (!res.ok) throw new Error(await res.text());
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+}
+
+// ─── Load all data ────────────────────────────────────────────────────────────
+async function loadAll() {
+  try {
+    const [p, c, l] = await Promise.all([
+      sb('lt_profile?select=*&limit=1'),
+      sb('lt_categories?select=*&order=sort_order.asc'),
+      sb('lt_links?select=*&order=sort_order.asc')
+    ]);
+    if (p && p[0]) profile = p[0];
+    cats  = c || [];
+    links = l || [];
+    renderProfileName();
+    renderLinks();
+  } catch(e) {
+    document.getElementById('links-render').innerHTML =
+      '<p style="color:var(--danger);font-size:.85rem;text-align:center">Fehler beim Laden der Daten.</p>';
+  }
+}
+
+// ─── Icon styles ──────────────────────────────────────────────────────────────
+const ICON_STYLES = {
+  gold:   'background:rgba(200,184,154,.12);color:#c8b89a',
+  pink:   'background:rgba(193,88,138,.12);color:#c1588a',
+  blue:   'background:rgba(100,149,196,.12);color:#6495c4',
+  green:  'background:rgba(120,200,150,.12);color:#78c896',
+  gray:   'background:rgba(240,237,232,.08);color:#c8c4be',
+  indigo: 'background:rgba(100,130,210,.12);color:#6482d2',
+  red:    'background:rgba(220,80,80,.12);color:#dc5050',
+  teal:   'background:rgba(100,200,180,.12);color:#64c8b4'
+};
+const LINK_ICON = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`;
+
+// ─── Render public view ───────────────────────────────────────────────────────
+function renderLinks() {
+  const el = document.getElementById('links-render');
+  if (!cats.length) { el.innerHTML = ''; return; }
+  let html = '';
+  cats.forEach(cat => {
+    const cl = links.filter(l => l.cat === cat.id);
+    if (!cl.length) return;
+    html += `<p class="section-label">${esc(cat.name)}</p><div class="links-group">`;
+    cl.forEach(l => {
+      const st = ICON_STYLES[l.icon] || ICON_STYLES.gray;
+      html += `<a class="link-item" href="${esc(l.url)}" target="${l.url.startsWith('mailto')?'_self':'_blank'}">
+        <span class="icon-wrap" style="${st}">${LINK_ICON}</span>
+        <span class="link-text">
+          <span class="link-title">${esc(l.title)}</span>
+          ${l.sub ? `<span class="link-sub">${esc(l.sub)}</span>` : ''}
+        </span>
+        <span class="arrow">→</span>
+      </a>`;
+    });
+    html += '</div>';
+  });
+  el.innerHTML = html || '<p class="empty-state">Noch keine Links vorhanden.</p>';
+}
+
+function renderProfileName() {
+  const f = profile.first_name || '', la = profile.last_name || '';
+  const initials = ((f[0]||'') + (la[0]||'')).toUpperCase();
+  document.getElementById('avatar-el').textContent = initials;
+  const el = document.getElementById('profile-name-el');
+  el.innerHTML = f && la ? `${esc(f)} <em>${esc(la)}</em>` : esc(f || la);
+  document.title = `${f} ${la} – Links`.trim();
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── Modals ───────────────────────────────────────────────────────────────────
+function openModal(id) { document.getElementById('modal-'+id).classList.add('open'); document.body.style.overflow='hidden'; }
+function closeModal(id) { document.getElementById('modal-'+id).classList.remove('open'); document.body.style.overflow=''; }
+function closeOnOverlay(e,id) { if(e.target===e.currentTarget) closeModal(id); }
+
+// ─── Login ────────────────────────────────────────────────────────────────────
+function openAdminLogin() {
+  if (loggedIn) { renderAdminPanel(); openModal('admin'); return; }
+  document.getElementById('login-pw').value = '';
+  document.getElementById('login-error').textContent = '';
+  openModal('login');
+  setTimeout(() => document.getElementById('login-pw').focus(), 300);
+}
+function doLogin() {
+  if (document.getElementById('login-pw').value === adminPw) {
+    loggedIn = true; closeModal('login'); renderAdminPanel(); openModal('admin');
+  } else {
+    document.getElementById('login-error').textContent = 'Falsches Passwort.';
+    document.getElementById('login-pw').value = '';
+    document.getElementById('login-pw').focus();
+  }
+}
+function doLogout() { loggedIn = false; closeModal('admin'); }
+
+// ─── Admin tabs ───────────────────────────────────────────────────────────────
+function switchTab(name) {
+  const names = ['links','cats','profil','pw'];
+  document.querySelectorAll('.admin-tab').forEach((t,i) => t.classList.toggle('active', names[i]===name));
+  document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if (name==='links')  renderAdminLinks();
+  if (name==='cats')   renderAdminCats();
+  if (name==='profil') renderProfileTab();
+}
+function renderAdminPanel() { switchTab('links'); }
+
+// ─── Admin: Links ─────────────────────────────────────────────────────────────
+function renderAdminLinks() {
+  const el = document.getElementById('admin-links-list');
+  const sel = document.getElementById('lf-cat');
+  sel.innerHTML = cats.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
+  if (!links.length) { el.innerHTML = '<p class="empty-state">Noch keine Links vorhanden.</p>'; return; }
+  let html = '';
+  cats.forEach(cat => {
+    const cl = links.filter(l => l.cat === cat.id);
+    if (!cl.length) return;
+    html += `<div class="admin-section-header"><span class="admin-section-title">${esc(cat.name)}</span></div>`;
+    cl.forEach(l => {
+      html += `<div class="admin-link-card">
+        <div class="admin-link-info">
+          <div class="admin-link-title">${esc(l.title)}</div>
+          <div class="admin-link-url">${esc(l.url)}</div>
+        </div>
+        <div class="admin-link-actions">
+          <button class="icon-btn" onclick="editLink('${l.id}')" title="Bearbeiten">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button class="icon-btn del" onclick="deleteLink('${l.id}')" title="Löschen">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          </button>
+        </div>
+      </div>`;
+    });
+  });
+  el.innerHTML = html || '<p class="empty-state">Noch keine Links vorhanden.</p>';
+}
+
+async function saveLink() {
+  const id    = document.getElementById('edit-link-id').value;
+  const title = document.getElementById('lf-title').value.trim();
+  const url   = document.getElementById('lf-url').value.trim();
+  const sub   = document.getElementById('lf-sub').value.trim();
+  const cat   = document.getElementById('lf-cat').value;
+  const icon  = document.getElementById('lf-icon').value;
+  const msg   = document.getElementById('link-msg');
+  if (!title || !url) { msg.style.color='var(--danger)'; msg.textContent='Titel und URL sind Pflichtfelder.'; return; }
+  msg.style.color='var(--muted)'; msg.textContent='Wird gespeichert…';
+  try {
+    const data = { title, url, sub, cat, icon };
+    if (id) {
+      await sb(`lt_links?id=eq.${id}`, { method:'PATCH', body: data, prefer:'return=representation' });
+      const idx = links.findIndex(l => l.id===id);
+      if (idx>-1) links[idx] = { ...links[idx], ...data };
+    } else {
+      const newId = 'l' + Date.now();
+      const sortOrder = links.filter(l=>l.cat===cat).length;
+      const created = await sb('lt_links', { method:'POST', body: { id: newId, sort_order: sortOrder, ...data }, prefer:'return=representation' });
+      links.push(created[0]);
+    }
+    msg.style.color='var(--success)'; msg.textContent='✓ Gespeichert!';
+    cancelLinkEdit();
+    renderAdminLinks();
+    renderLinks();
+    setTimeout(()=>{ msg.textContent=''; }, 2500);
+  } catch(e) {
+    msg.style.color='var(--danger)'; msg.textContent='Fehler: ' + e.message;
+  }
+}
+
+function editLink(id) {
+  const l = links.find(x => x.id===id);
+  if (!l) return;
+  document.getElementById('edit-link-id').value = l.id;
+  document.getElementById('lf-title').value = l.title;
+  document.getElementById('lf-url').value   = l.url;
+  document.getElementById('lf-sub').value   = l.sub||'';
+  document.getElementById('lf-cat').value   = l.cat;
+  document.getElementById('lf-icon').value  = l.icon;
+  document.getElementById('link-form-title').textContent = 'Link bearbeiten';
+  document.getElementById('link-save-btn').textContent   = 'Änderungen speichern';
+  document.getElementById('link-cancel-btn').style.display = '';
+  document.getElementById('lf-title').scrollIntoView({ behavior:'smooth', block:'center' });
+}
+
+function cancelLinkEdit() {
+  document.getElementById('edit-link-id').value = '';
+  ['lf-title','lf-url','lf-sub'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('link-form-title').textContent = 'Neuen Link hinzufügen';
+  document.getElementById('link-save-btn').textContent   = 'Link speichern';
+  document.getElementById('link-cancel-btn').style.display = 'none';
+  document.getElementById('link-msg').textContent = '';
+}
+
+async function deleteLink(id) {
+  if (!confirm('Diesen Link wirklich löschen?')) return;
+  try {
+    await sb(`lt_links?id=eq.${id}`, { method:'DELETE', prefer:'return=minimal' });
+    links = links.filter(l => l.id!==id);
+    renderAdminLinks(); renderLinks();
+  } catch(e) { alert('Fehler beim Löschen: '+e.message); }
+}
+
+// ─── Admin: Kategorien ────────────────────────────────────────────────────────
+function renderAdminCats() {
+  const el = document.getElementById('admin-cats-list');
+  if (!cats.length) { el.innerHTML='<p class="empty-state">Noch keine Kategorien vorhanden.</p>'; return; }
+  el.innerHTML = cats.map(c => `
+    <div class="admin-cat-card">
+      <div style="flex:1;font-size:.88rem;font-weight:500">${esc(c.name)}</div>
+      <span class="badge">${links.filter(l=>l.cat===c.id).length} Link(s)</span>
+      <div class="admin-link-actions">
+        <button class="icon-btn" onclick="editCat('${c.id}')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+        <button class="icon-btn del" onclick="deleteCat('${c.id}')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+        </button>
+      </div>
+    </div>`).join('');
+}
+
+async function saveCat() {
+  const id   = document.getElementById('edit-cat-id').value;
+  const name = document.getElementById('cf-name').value.trim();
+  const msg  = document.getElementById('cat-msg');
+  if (!name) { msg.style.color='var(--danger)'; msg.textContent='Bitte einen Namen eingeben.'; return; }
+  msg.style.color='var(--muted)'; msg.textContent='Wird gespeichert…';
+  try {
+    if (id) {
+      await sb(`lt_categories?id=eq.${id}`, { method:'PATCH', body:{ name }, prefer:'return=representation' });
+      const idx = cats.findIndex(c=>c.id===id);
+      if (idx>-1) cats[idx].name = name;
+    } else {
+      const newId = 'cat'+Date.now();
+      const created = await sb('lt_categories', { method:'POST', body:{ id:newId, name, sort_order:cats.length }, prefer:'return=representation' });
+      cats.push(created[0]);
+    }
+    msg.style.color='var(--success)'; msg.textContent='✓ Gespeichert!';
+    cancelCatEdit(); renderAdminCats(); renderLinks();
+    setTimeout(()=>{ msg.textContent=''; }, 2500);
+  } catch(e) { msg.style.color='var(--danger)'; msg.textContent='Fehler: '+e.message; }
+}
+
+function editCat(id) {
+  const c = cats.find(x=>x.id===id);
+  if (!c) return;
+  document.getElementById('edit-cat-id').value = c.id;
+  document.getElementById('cf-name').value = c.name;
+  document.getElementById('cat-form-title').textContent = 'Kategorie bearbeiten';
+  document.getElementById('cat-save-btn').textContent   = 'Änderungen speichern';
+  document.getElementById('cat-cancel-btn').style.display = '';
+}
+
+function cancelCatEdit() {
+  document.getElementById('edit-cat-id').value='';
+  document.getElementById('cf-name').value='';
+  document.getElementById('cat-form-title').textContent='Neue Kategorie';
+  document.getElementById('cat-save-btn').textContent='Kategorie speichern';
+  document.getElementById('cat-cancel-btn').style.display='none';
+  document.getElementById('cat-msg').textContent='';
+}
+
+async function deleteCat(id) {
+  const hasLinks = links.some(l=>l.cat===id);
+  const msg = hasLinks ? 'Diese Kategorie hat noch Links. Wirklich löschen?' : 'Kategorie löschen?';
+  if (!confirm(msg)) return;
+  try {
+    await sb(`lt_categories?id=eq.${id}`, { method:'DELETE', prefer:'return=minimal' });
+    cats = cats.filter(c=>c.id!==id);
+    renderAdminCats(); renderLinks();
+  } catch(e) { alert('Fehler: '+e.message); }
+}
+
+// ─── Admin: Profil ────────────────────────────────────────────────────────────
+function renderProfileTab() {
+  document.getElementById('pf-first').value = profile.first_name||'';
+  document.getElementById('pf-last').value  = profile.last_name||'';
+  document.getElementById('pf-msg').textContent = '';
+  updateAvatarPreview();
+}
+
+function updateAvatarPreview() {
+  const f = document.getElementById('pf-first').value.trim();
+  const l = document.getElementById('pf-last').value.trim();
+  document.getElementById('pf-avatar-preview').textContent = ((f[0]||'')+(l[0]||'')).toUpperCase();
+}
+
+async function saveProfile() {
+  const first = document.getElementById('pf-first').value.trim();
+  const last  = document.getElementById('pf-last').value.trim();
+  const msg   = document.getElementById('pf-msg');
+  if (!first && !last) { msg.style.color='var(--danger)'; msg.textContent='Bitte mindestens einen Namen eingeben.'; return; }
+  msg.style.color='var(--muted)'; msg.textContent='Wird gespeichert…';
+  try {
+    await sb(`lt_profile?id=eq.${profile.id}`, { method:'PATCH', body:{ first_name:first, last_name:last }, prefer:'return=representation' });
+    profile.first_name = first; profile.last_name = last;
+    renderProfileName();
+    msg.style.color='var(--success)'; msg.textContent='✓ Gespeichert!';
+    setTimeout(()=>{ msg.textContent=''; }, 2500);
+  } catch(e) { msg.style.color='var(--danger)'; msg.textContent='Fehler: '+e.message; }
+}
+
+// ─── Admin: Passwort (lokal) ──────────────────────────────────────────────────
+function changePw() {
+  const cur=document.getElementById('pw-current').value;
+  const nw=document.getElementById('pw-new').value;
+  const rep=document.getElementById('pw-repeat').value;
+  const msg=document.getElementById('pw-msg');
+  if (cur!==adminPw)   { msg.style.color='var(--danger)'; msg.textContent='Aktuelles Passwort ist falsch.'; return; }
+  if (nw.length<6)     { msg.style.color='var(--danger)'; msg.textContent='Mind. 6 Zeichen erforderlich.'; return; }
+  if (nw!==rep)        { msg.style.color='var(--danger)'; msg.textContent='Passwörter stimmen nicht überein.'; return; }
+  adminPw=nw; localStorage.setItem(ADMIN_PW_KEY, adminPw);
+  msg.style.color='var(--success)'; msg.textContent='✓ Passwort geändert!';
+  ['pw-current','pw-new','pw-repeat'].forEach(id=>document.getElementById(id).value='');
+}
+
+// ─── Keyboard ─────────────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key==='Escape') ['login','admin','impressum','datenschutz'].forEach(closeModal);
+});
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+loadAll();
+</script>
 </body>
 </html>
