@@ -109,6 +109,53 @@
   .badge { display:inline-block; font-size:.68rem; padding:2px 8px; border-radius:20px; background:var(--surface); border:1px solid var(--border); color:var(--muted); }
   .empty-state { text-align:center; color:var(--muted); font-size:.82rem; padding:1.5rem 0; }
   .saving-indicator { font-size:.78rem; color:var(--muted); text-align:center; min-height:1.2em; }
+
+  /* ── Responsive ─────────────────────────────────────────── */
+
+  /* Tablet (≤768px) */
+  @media (max-width: 768px) {
+    body { padding: 2.5rem 1rem 3.5rem; }
+    .container { max-width: 100%; }
+    .modal { max-height: 90vh; padding: 1.75rem 1.25rem 2rem; }
+    .admin-tabs { gap: .4rem; }
+    .admin-tab { padding: .4rem .75rem; font-size: .75rem; }
+    .profile-name { font-size: 1.55rem; }
+    .avatar { width: 80px; height: 80px; font-size: 24px; }
+    .avatar-wrap { width: 80px; height: 80px; }
+  }
+
+  /* Smartphone (≤480px) */
+  @media (max-width: 480px) {
+    body { padding: 2rem .9rem 5rem; }
+    .profile-name { font-size: 1.35rem; }
+    .avatar { width: 72px; height: 72px; font-size: 21px; }
+    .avatar-wrap { width: 72px; height: 72px; }
+    .avatar-wrap .status-dot { bottom: 3px; right: 3px; width: 10px; height: 10px; }
+    .link-item { padding: .75rem 1rem; border-radius: 12px; gap: 11px; }
+    .link-title { font-size: .88rem; }
+    .icon-wrap { width: 32px; height: 32px; border-radius: 9px; }
+    .section-label { font-size: .65rem; }
+    .modal { border-radius: 16px 16px 0 0; padding: 1.5rem 1rem 2rem; max-height: 92vh; }
+    .modal-title { font-size: 1.15rem; }
+    .admin-tabs { flex-wrap: wrap; gap: .35rem; }
+    .admin-tab { padding: .38rem .65rem; font-size: .72rem; }
+    .admin-form input, .admin-form select { font-size: .85rem; padding: .6rem .8rem; }
+    .btn { padding: .65rem 1rem; font-size: .84rem; }
+    .admin-link-card { padding: .65rem .85rem; gap: 8px; }
+    .admin-link-title { font-size: .84rem; }
+    .admin-link-url { font-size: .7rem; }
+    .icon-btn { width: 32px; height: 32px; }
+    .admin-fab { bottom: 1.25rem; right: 1.25rem; width: 40px; height: 40px; }
+    .footer { font-size: .68rem; }
+  }
+
+  /* Touch: remove hover transform on touch devices */
+  @media (hover: none) {
+    .link-item:hover { transform: none; }
+    .link-item:active { transform: scale(.98); background: var(--surface2); border-color: var(--border-hover); }
+    .admin-fab:hover { transform: none; }
+    .admin-fab:active { transform: scale(.95); }
+  }
 </style>
 </head>
 <body>
@@ -321,10 +368,7 @@
 const SUPA_URL = 'https://sntkvqzfiyhtvtufqfgp.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNudGt2cXpmaXlodHZ0dWZxZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDQ5MjcsImV4cCI6MjA5MjcyMDkyN30.viXudtCbUkzLEmdsXqAGYFwlxNB-JiHNp11g0t1XHc0';
 
-const ADMIN_PW_KEY = 'as_admin_pw';
-const DEFAULT_PW   = 'admin123';
-
-let adminPw  = localStorage.getItem(ADMIN_PW_KEY) || DEFAULT_PW;
+let adminPwHash = null; // loaded from Supabase
 let loggedIn = false;
 let cats = [], links = [], profile = { first_name: 'Alexander', last_name: 'Scherer' };
 
@@ -349,14 +393,16 @@ async function sb(path, opts = {}) {
 // ─── Load all data ────────────────────────────────────────────────────────────
 async function loadAll() {
   try {
-    const [p, c, l] = await Promise.all([
+    const [p, c, l, s] = await Promise.all([
       sb('lt_profile?select=*&limit=1'),
       sb('lt_categories?select=*&order=sort_order.asc'),
-      sb('lt_links?select=*&order=sort_order.asc')
+      sb('lt_links?select=*&order=sort_order.asc'),
+      sb('lt_settings?key=eq.admin_pw_hash&select=value&limit=1')
     ]);
     if (p && p[0]) profile = p[0];
     cats  = c || [];
     links = l || [];
+    if (s && s[0]) adminPwHash = s[0].value;
     renderProfileName();
     renderLinks();
   } catch(e) {
@@ -429,8 +475,10 @@ function openAdminLogin() {
   openModal('login');
   setTimeout(() => document.getElementById('login-pw').focus(), 300);
 }
-function doLogin() {
-  if (document.getElementById('login-pw').value === adminPw) {
+async function doLogin() {
+  const pw = document.getElementById('login-pw').value;
+  const hash = await sha256(pw);
+  if (hash === adminPwHash) {
     loggedIn = true; closeModal('login'); renderAdminPanel(); openModal('admin');
   } else {
     document.getElementById('login-error').textContent = 'Falsches Passwort.';
@@ -648,18 +696,34 @@ async function saveProfile() {
   } catch(e) { msg.style.color='var(--danger)'; msg.textContent='Fehler: '+e.message; }
 }
 
-// ─── Admin: Passwort (lokal) ──────────────────────────────────────────────────
-function changePw() {
+// ─── SHA-256 helper ───────────────────────────────────────────────────────────
+async function sha256(message) {
+  const msgBuffer = new TextEncoder().encode(message);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// ─── Admin: Passwort (Supabase) ───────────────────────────────────────────────
+async function changePw() {
   const cur=document.getElementById('pw-current').value;
   const nw=document.getElementById('pw-new').value;
   const rep=document.getElementById('pw-repeat').value;
   const msg=document.getElementById('pw-msg');
-  if (cur!==adminPw)   { msg.style.color='var(--danger)'; msg.textContent='Aktuelles Passwort ist falsch.'; return; }
-  if (nw.length<6)     { msg.style.color='var(--danger)'; msg.textContent='Mind. 6 Zeichen erforderlich.'; return; }
-  if (nw!==rep)        { msg.style.color='var(--danger)'; msg.textContent='Passwörter stimmen nicht überein.'; return; }
-  adminPw=nw; localStorage.setItem(ADMIN_PW_KEY, adminPw);
-  msg.style.color='var(--success)'; msg.textContent='✓ Passwort geändert!';
-  ['pw-current','pw-new','pw-repeat'].forEach(id=>document.getElementById(id).value='');
+  const curHash = await sha256(cur);
+  if (curHash !== adminPwHash) { msg.style.color='var(--danger)'; msg.textContent='Aktuelles Passwort ist falsch.'; return; }
+  if (nw.length<6)             { msg.style.color='var(--danger)'; msg.textContent='Mind. 6 Zeichen erforderlich.'; return; }
+  if (nw!==rep)                { msg.style.color='var(--danger)'; msg.textContent='Passwörter stimmen nicht überein.'; return; }
+  msg.style.color='var(--muted)'; msg.textContent='Wird gespeichert…';
+  try {
+    const newHash = await sha256(nw);
+    await sb('lt_settings?key=eq.admin_pw_hash', { method:'PATCH', body:{ value: newHash }, prefer:'return=representation' });
+    adminPwHash = newHash;
+    msg.style.color='var(--success)'; msg.textContent='✓ Passwort geändert!';
+    ['pw-current','pw-new','pw-repeat'].forEach(id=>document.getElementById(id).value='');
+  } catch(e) {
+    msg.style.color='var(--danger)'; msg.textContent='Fehler: '+e.message;
+  }
 }
 
 // ─── Keyboard ─────────────────────────────────────────────────────────────────
